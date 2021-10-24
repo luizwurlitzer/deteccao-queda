@@ -1,0 +1,71 @@
+server:
+  port: 8080
+
+mqtt:
+  user:
+    name: mosquitto_user
+    password: tccdeteccaoqueda2021final
+  url: 35.170.137.16
+  port: 1883
+  topic:
+    queda: ADXL345/statusSistema
+    orientacao: ADXL345/orientacao
+
+spring:
+  application:
+    name: deteccao-queda-service
+  jackson:
+    serialization.write_dates_as_timestamps: false
+    deserialization.adjust_dates_to_context_time_zone: true
+    time-zone: UTC
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd'T'HH:mm:ssZ
+  datasource:
+    url: jdbc:postgresql://35.170.137.16:5432/deteccao-queda
+    jdbcUrl: jdbc:postgresql://35.170.137.16:5432/deteccao-queda
+    username: deteccao-queda-service
+    password: deteccao-queda-service
+    driver-class-name: org.postgresql.Driver
+    tomcat.max-active: 10
+    tomcat.max-idle: 10
+    xa:
+      data-source-class-name: org.postgresql.xa.PGXADataSource
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: deteccao_queda
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        show_sql: false
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: deteccaoqueda@gmail.com
+      password: tccdeteccaoqueda2021
+      properties:
+        mail:
+          transport:
+            protocol: smtp
+          debug: false
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+
+  flyway:
+    sqlMigrationPrefix: V
+    sqlMigrationSeparator: __
+    validateOnMigrate: true
+    sql-migration-suffixes: .sql
+    schemas: deteccao_queda
+    init-sqls: SET ROLE "deteccao-queda-service"; SET STATEMENT_TIMEOUT TO '300s';
+    locations: classpath:/db/migration
+    check-location: true
+    enabled: true

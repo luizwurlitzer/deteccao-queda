@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_DB=deteccao-queda
+      - POSTGRES_USER=deteccao-queda-service
+      - POSTGRES_PASSWORD=deteccao-queda-service
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"  
+    ports:
+      - 5432:5432
